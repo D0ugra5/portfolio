@@ -19,29 +19,32 @@ dbname = client['cluster0']
 collection_name = dbname["testColletion"]
 client.get
 
-complait = []
-resp = dbname.testColletion.find()
 
+def procuraLivros():
+    complaits = []
+    resp = dbname.testColletion.find()
 
-for item in resp:
-    complait.append(item)
+    for item in resp:
+        complaits.append(item)
 
-print(complait)
+    return complaits
 
 
 @app.route('/complaits', methods=['GET'])
 @cross_origin()
-def obter_complaits():
-    return json.dumps(complait, indent=4, default=json_util.default)
+def obter_livros():
+
+    print(procuraLivros())
+    return json.dumps(procuraLivros(), indent=4, default=json_util.default)
 
 
 @app.route('/complaits/<int:id>', methods=['GET'])
 @cross_origin()
-def obter_complaits(id):
-    for complait in complaits:
+def obter_livro(id):
+    for complait in procuraLivros():
         if complait['id'] == id:
             return json.dumps(complait, indent=4, default=json_util.default)
-    return jsonify({'erro': 'Complaits Not found'})
+    return jsonify({'erro': 'complait não encontrado'})
 
 
 @app.route('/complaits', methods=['POST'])
@@ -49,7 +52,7 @@ def obter_complaits(id):
 def save_complaint():
 
     dbname.testColletion.insert_one({
-        "title": request.json["title"]
+        "title": request.json["title"],
         "desc": request.json["desc"]
     })
 
