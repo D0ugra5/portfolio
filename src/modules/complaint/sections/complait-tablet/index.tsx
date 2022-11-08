@@ -21,6 +21,11 @@ import { useState } from "react";
 import { useComplait } from "./../../../service/hooks/useComplait";
 export default function ComplaitTable() {
   const [openModal, setOpenModal] = useState(false);
+  const [itemComplat, setItemComplait] = useState({
+    title: "",
+    desc: "",
+  });
+
   const { data } = useComplait();
 
   function handleClosedModal() {
@@ -79,7 +84,14 @@ export default function ComplaitTable() {
                         <Icon
                           as={RiPencilLine}
                           fontSize="16"
-                          onClick={() => setOpenModal(true)}
+                          onClick={() => {
+                            setOpenModal(true);
+
+                            setItemComplait({
+                              title: item.title,
+                              desc: item.desc,
+                            });
+                          }}
                         />
                       }
                     ></Button>
@@ -90,8 +102,8 @@ export default function ComplaitTable() {
           </Table>
 
           <ModalComplait
-            title="nada Mal"
-            descriptions=" Lorem, ipsum dolor sit amet consectetur adipisicing elit. Beatae obcaecati quis quam officiis quos quidem, dolorem commodi itaque voluptatum iusto magni hic! Suscipit eum delectus nisi sequi dolores, laudantium magni!"
+            title={itemComplat.title}
+            descriptions={itemComplat.desc}
             isOpen={openModal}
             onRequestClosedModal={handleClosedModal}
           />

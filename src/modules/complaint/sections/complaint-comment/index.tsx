@@ -28,7 +28,6 @@ export default function ComplaintComment() {
       onSubmit={handleSubmit(handleCreateUser)}
     >
       <Text mb="8" fontSize="50">
-        {" "}
         Reclame Aqui
       </Text>
       <Input
