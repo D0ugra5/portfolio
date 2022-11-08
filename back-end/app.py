@@ -31,13 +31,13 @@ print(complait)
 
 @app.route('/complaits', methods=['GET'])
 @cross_origin()
-def obter_livros():
+def obter_complaits():
     return json.dumps(complait, indent=4, default=json_util.default)
 
 
 @app.route('/complaits/<int:id>', methods=['GET'])
 @cross_origin()
-def obter_livro(id):
+def obter_complaits(id):
     for complait in complaits:
         if complait['id'] == id:
             return json.dumps(complait, indent=4, default=json_util.default)
