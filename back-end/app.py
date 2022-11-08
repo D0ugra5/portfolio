@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, Response, request
 import pymongo
 
-
+from bson.objectid import ObjectId
 from bson import json_util
 import json
 from flask_cors import CORS, cross_origin
@@ -62,14 +62,12 @@ def save_complaint():
 @app.route('/complaits/<string:id>', methods=['PUT'])
 @cross_origin()
 def update_complaint(id):
-    for complait in procuraLivros():
-        if complait['title'] == id:
-            complait['title'] = request.json['title']
-            complait['desc'] = request.json['desc']
-            print(complait)
-            dbname.testColletion.update_one({"title": id}, {"$set": complait})
-            return jsonify({'sucess': 'complait atualizado'})
-    return jsonify({'erro': 'complait não encontrado'})
+    dbname.testColletion.update_one(
+        {"_id": ObjectId(id)}, {"$set": {
+            "title": request.json['title'],
+            "desc": request.json['desc']
+        }})
+    return jsonify({'sucess': 'complait atualizado'})
 
 
 @app.route('/complaits/<string:id>', methods=['DELETE'])

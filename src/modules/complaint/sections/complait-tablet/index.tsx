@@ -37,8 +37,8 @@ export default function ComplaitTable() {
   async function deleteComplait(id: string) {
     console.log(id);
     try {
-      await api.delete(`/complait/${id}`);
-      queryClient.invalidateQueries("complait");
+      await api.delete(`/complaits/${id}`);
+      queryClient.invalidateQueries("complaits");
     } catch (error) {
       alert("Erro ao deletar reclamação");
     }
