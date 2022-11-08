@@ -40,9 +40,13 @@ export default function ModalComplait({
         </ModalHeader>
         <ModalCloseButton />
         <ModalBody>
-          <Textarea h="20vh" color="black" disabled>
-            {descriptions}
-          </Textarea>
+          <Textarea
+            value={descriptions}
+            key="jabinho"
+            h="20vh"
+            color="black"
+            disabled
+          />
         </ModalBody>
 
         <ModalFooter>

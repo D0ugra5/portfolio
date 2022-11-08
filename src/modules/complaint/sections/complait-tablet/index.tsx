@@ -18,13 +18,15 @@ import { RiAddLine, RiPencilLine } from "react-icons/ri";
 import Link from "next/link";
 import ModalComplait from "../../components/modal-complait";
 import { useState } from "react";
+import { useComplait } from "./../../../service/hooks/useComplait";
 export default function ComplaitTable() {
   const [openModal, setOpenModal] = useState(false);
+  const { data } = useComplait();
 
   function handleClosedModal() {
     setOpenModal(false);
   }
-  console.log(openModal);
+
   return (
     <Box>
       <Flex w="100%" my="6" maxWidth={1480} mx="auto" px="6">
@@ -56,34 +58,34 @@ export default function ComplaitTable() {
               </Tr>
             </Thead>
             <Tbody>
-              <Tr>
-                <Td px={["4", "4", "6"]}>
-                  <Checkbox colorScheme="pink" />
-                </Td>
-                <Td>
-                  <Box>
-                    <Text fontWeight="bold">
-                      a Aula de quarta e muito chata
-                    </Text>
-                  </Box>
-                </Td>
-                <Td>12/04/2022</Td>
-                <Td>
-                  <Button
-                    as="a"
-                    size="sm"
-                    fontSize="sm"
-                    colorScheme="teal"
-                    leftIcon={
-                      <Icon
-                        as={RiPencilLine}
-                        fontSize="16"
-                        onClick={() => setOpenModal(true)}
-                      />
-                    }
-                  ></Button>
-                </Td>
-              </Tr>
+              {data?.map((item: any) => (
+                <Tr key={item.desc}>
+                  <Td px={["4", "4", "6"]}>
+                    <Checkbox colorScheme="pink" />
+                  </Td>
+                  <Td>
+                    <Box>
+                      <Text fontWeight="bold">{item.title}</Text>
+                    </Box>
+                  </Td>
+                  <Td>12/04/2022</Td>
+                  <Td>
+                    <Button
+                      as="a"
+                      size="sm"
+                      fontSize="sm"
+                      colorScheme="teal"
+                      leftIcon={
+                        <Icon
+                          as={RiPencilLine}
+                          fontSize="16"
+                          onClick={() => setOpenModal(true)}
+                        />
+                      }
+                    ></Button>
+                  </Td>
+                </Tr>
+              ))}
             </Tbody>
           </Table>
 
