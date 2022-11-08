@@ -59,4 +59,28 @@ def save_complaint():
     return Response("", status=201, mimetype='application/json')
 
 
+@app.route('/complaits/<string:id>', methods=['PUT'])
+@cross_origin()
+def update_complaint(id):
+    for complait in procuraLivros():
+        if complait['title'] == id:
+            complait['title'] = request.json['title']
+            complait['desc'] = request.json['desc']
+            print(complait)
+            dbname.testColletion.update_one({"title": id}, {"$set": complait})
+            return jsonify({'sucess': 'complait atualizado'})
+    return jsonify({'erro': 'complait não encontrado'})
+
+
+@app.route('/complaits/<string:id>', methods=['DELETE'])
+@cross_origin()
+def delete_complaint(id):
+    print(id)
+    for complait in procuraLivros():
+        if complait['title'] == id:
+            dbname.testColletion.delete_one(complait)
+            return Response("", status=204, mimetype='application/json')
+    return jsonify({'erro': 'complait não encontrado'})
+
+
 app.run(port=5000, host='localhost', debug=True)

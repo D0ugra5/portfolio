@@ -57,6 +57,14 @@ export default function ModalComplait({
           >
             Close
           </Button>
+          <Button
+            colorScheme="blue"
+            mr={3}
+            variant="outline"
+            onClick={() => onRequestClosedModal()}
+          >
+            Atualizar
+          </Button>
         </ModalFooter>
       </ModalContent>
     </Modal>

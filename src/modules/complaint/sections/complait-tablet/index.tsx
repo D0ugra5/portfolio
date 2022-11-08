@@ -14,11 +14,14 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { RiAddLine, RiPencilLine } from "react-icons/ri";
+import { AiTwotoneDelete } from "react-icons/ai";
 
 import Link from "next/link";
 import ModalComplait from "../../components/modal-complait";
 import { useState } from "react";
 import { useComplait } from "./../../../service/hooks/useComplait";
+import { api } from "@/modules/service/api";
+import { queryClient } from "@/modules/service/query-react";
 export default function ComplaitTable() {
   const [openModal, setOpenModal] = useState(false);
   const [itemComplat, setItemComplait] = useState({
@@ -27,9 +30,18 @@ export default function ComplaitTable() {
   });
 
   const { data } = useComplait();
-
   function handleClosedModal() {
     setOpenModal(false);
+  }
+
+  async function deleteComplait(id: string) {
+    console.log(id);
+    try {
+      await api.delete(`/complait/${id}`);
+      queryClient.invalidateQueries("complait");
+    } catch (error) {
+      alert("Erro ao deletar reclamação");
+    }
   }
 
   return (
@@ -75,26 +87,40 @@ export default function ComplaitTable() {
                   </Td>
                   <Td>12/04/2022</Td>
                   <Td>
-                    <Button
-                      as="a"
-                      size="sm"
-                      fontSize="sm"
-                      colorScheme="teal"
-                      leftIcon={
-                        <Icon
-                          as={RiPencilLine}
-                          fontSize="16"
-                          onClick={() => {
-                            setOpenModal(true);
+                    <Flex display="flex" flexDirection="row">
+                      <Button
+                        as="a"
+                        mr="4"
+                        colorScheme="teal"
+                        leftIcon={
+                          <Icon
+                            as={RiPencilLine}
+                            fontSize="16"
+                            onClick={() => {
+                              setOpenModal(true);
 
-                            setItemComplait({
-                              title: item.title,
-                              desc: item.desc,
-                            });
-                          }}
-                        />
-                      }
-                    ></Button>
+                              setItemComplait({
+                                title: item.title,
+                                desc: item.desc,
+                              });
+                            }}
+                          />
+                        }
+                      ></Button>
+                      <Button
+                        as="a"
+                        colorScheme="teal"
+                        variant="outline"
+                        color="red"
+                        leftIcon={
+                          <Icon
+                            as={AiTwotoneDelete}
+                            fontSize="16"
+                            onClick={() => deleteComplait(item.title)}
+                          />
+                        }
+                      ></Button>
+                    </Flex>
                   </Td>
                 </Tr>
               ))}
