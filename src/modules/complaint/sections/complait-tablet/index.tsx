@@ -30,6 +30,7 @@ export default function ComplaitTable() {
   });
 
   const { data } = useComplait();
+  console.log(data);
   function handleClosedModal() {
     setOpenModal(false);
   }

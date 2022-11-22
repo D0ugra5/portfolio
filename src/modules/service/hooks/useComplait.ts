@@ -2,7 +2,7 @@ import { useQuery } from "react-query";
 import { api } from "../api";
 
 async function getComplaits() {
-  const { data } = await api.get("/complaits");
+  const { data } = await api.get("/");
   return data;
 }
 
